@@ -115,7 +115,7 @@ class ServiceLocator implements PsrContainerInterface
         } elseif (is_subclass_of($class, ServiceSubscriberInterface::class)) {
             $msg .= sprintf(' Unless you need extra laziness, try using dependency injection instead. Otherwise, you need to declare it using "%s::getSubscribedServices()".', preg_replace('/([^\\\\]++\\\\)++/', '', $class));
         } else {
-            $msg .= 'Try using dependency injection instead.';
+            $msg .= ' Try using dependency injection instead.';
         }
 
         return new ServiceNotFoundException($id, end($this->loading) ?: null, null, array(), $msg);
