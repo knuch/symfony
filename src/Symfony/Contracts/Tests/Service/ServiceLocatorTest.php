@@ -78,6 +78,20 @@ class ServiceLocatorTest extends TestCase
     }
 
     /**
+     * @expectedException        \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @expectedExceptionMessage Service "foo" not found: even though it exists in the app's container, the container inside "foo" is a smaller service locator that is empty... Try using dependency injection instead.
+     */
+    public function testGetThrowCreateServiceNotFoundException()
+    {
+        $container = new \Symfony\Component\DependencyInjection\Container();
+        $container->set('foo', new \stdClass());
+
+        $locator = new \Symfony\Component\DependencyInjection\ServiceLocator([]);
+        $locator = $locator->withContext('foo', $container);
+        $locator->get('foo');
+    }
+
+    /**
      * @expectedException        \Psr\Container\ContainerExceptionInterface
      * @expectedExceptionMessage Circular reference detected for service "bar", path: "bar -> baz -> bar".
      */
